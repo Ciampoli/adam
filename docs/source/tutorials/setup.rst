@@ -124,7 +124,7 @@ like branch switches, run the setup script within your Docker container.
 
 .. code-block:: bash
 
-   (adam) ~ $ setup.bash --no-venv
+   (adam) ~ $ scripts/setup.bash --no-venv
 
 Verifying the Installation
 ==========================
@@ -141,7 +141,7 @@ To confirm your setup is correct, perform the following checks:
 
    .. code-block:: bash
 
-      adam.py --help
+      scripts/adam.py --help
 
    You should see the script's help message.
 

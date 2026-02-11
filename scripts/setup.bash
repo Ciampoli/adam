@@ -14,6 +14,7 @@
 # limitations under the License.
 
 use_venv=true
+protected="$(basename $0)"
 
 # Exit on any error
 set -e
@@ -30,6 +31,8 @@ done
 # Navigate to the project root
 cd "$(dirname "$0")"/..
 proj=$(pwd)
+
+echo "ADAM ${protected}: Working in folder $proj"
 
 # Clean
 # =============================================================================
@@ -72,13 +75,15 @@ if $use_venv; then
   python3 -m venv venv
   source ./venv/bin/activate
 else
-  echo "Skipping virtual environment as --no-venv was specified"
+  echo "ADAM ${protected}: Skipping virtual environment as --no-venv was specified"
 fi
 
 # Upgrade setuptools and pip
+echo "ADAM ${protected}: installing setuptools"
 pip install -U pip setuptools
 
 # Install requirements.txt
+echo "ADAM ${protected}: installing requirements"
 pip3 install -r requirements.txt
 
 # Setup IBEX
@@ -87,6 +92,7 @@ pip3 install -r requirements.txt
 cd libs/ibex
 
 # Install python-requirements.txt
+echo "ADAM ${protected}: installing IBEX requirements"
 pip3 install -U -r python-requirements.txt
 
 # Run fusesoc
@@ -110,7 +116,7 @@ cd $proj
 # Exit
 # =============================================================================
 # Print exit message
-echo -e "\033[0;32mSetup finished\033[0m"
+echo -e "\033[0;32mADAM ${protected}: Setup finished\033[0m"
 
 # Exits from script
 exit 0
