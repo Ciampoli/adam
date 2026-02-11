@@ -4,8 +4,8 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR riscv)
-
-set(TOOLCHAIN_PREFIX "/opt/riscv/bin/riscv32-unknown-elf-"
+set(TOOLCHAIN $ENV{RISCV})
+set(TOOLCHAIN_PREFIX "${TOOLCHAIN}/bin/riscv32-unknown-elf-"
   CACHE PATH "Prefix for RISC-V tools")
 
 set(CMAKE_C_COMPILER   "${TOOLCHAIN_PREFIX}gcc"     CACHE FILEPATH "")
@@ -68,7 +68,7 @@ target_link_libraries(riscv_stdlib INTERFACE riscv_base)
 target_link_libraries(riscv_stdlib INTERFACE
   stdc++
   supc++
-  c_nano
+#  c_nano
   m
   gcc
   nosys

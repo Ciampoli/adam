@@ -3,7 +3,7 @@
 OUTPUT_ARCH(riscv)
 
 /* Required to correctly link newlib nano */
-GROUP(-lnosys -lc_nano -lgcc -lsupc++)
+GROUP(-lnosys -lgcc -lsupc++)
 
 _stack_size = 1024;
 _heap_size  = 1024;

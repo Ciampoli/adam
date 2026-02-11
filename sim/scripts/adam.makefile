@@ -2,6 +2,7 @@
 #SBE
 SHELL = /bin/bash
 WORK_DIR	= ./temp
+YAMLPATH    = $(ADAMDIR)/adam.yml
 YAML		= my_adam_tb
 TB 			= my_adam_tb
 WAVE		= "do ../wave/wave_my_adam.do"
@@ -10,8 +11,8 @@ OPTION 		= -voptargs=+acc
 OUTPUT_DIR	= ../outputs
 
 # List of source files
-SOURCES := $(shell python ./yaml_parser.py $(YAML) | head -n 1)
-INCLUDES := $(shell python ./yaml_parser.py $(YAML) | tail -n 1)
+SOURCES := $(shell python ./yaml_parser.py   $(YAML) $(YAMLPATH) | head -n 1)
+INCLUDES := $(shell python ./yaml_parser.py    $(YAML) $(YAMLPATH) | tail -n 1)
 PKG_SOURCES = $(filter %_pkg.sv, $(SOURCES))
 NON_PKG_SOURCES = $(filter-out %_pkg.sv, $(SOURCES))
 INC_DIRS := $(foreach dir,$(INCLUDES),+incdir+$(dir))
@@ -25,7 +26,7 @@ run :
 	@echo '*********'
 	vlog -force_refresh
 	vsim -printsimstats $(OPTION) -suppress 2912 -suppress 13181 -suppress 12003 -L work -do $(RUNTIME) work.$(TB) &
-	
+
 #INIT
 init :
 	@echo '**********'

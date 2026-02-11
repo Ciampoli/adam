@@ -1,17 +1,3 @@
-# Copyright 2025 LIRMM
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import yaml
 from pathlib import Path
 import argparse
@@ -20,12 +6,11 @@ def get_all_required_files(yaml_file, fset):
     with open(yaml_file, 'r') as file:
         yaml_data = yaml.safe_load(file)
 
-    base_dir = Path(yaml_file).parent.resolve()
-    home_dir = Path.home()
-    relative_dir = base_dir.relative_to(home_dir)
-    full_dir = home_dir / relative_dir
+    full_dir = yaml_file.strip().replace('adam.yml', '')  # Ensure full_dir is the directory of the YAML file
+    full_dir = Path(full_dir).resolve()
     required_files, include_dirs = get_required_files_recursive(yaml_data, fset, full_dir)
     return required_files, include_dirs
+    
 
 def get_required_files_recursive(yaml_data, fset, base_dir):
     required_files = set()
@@ -55,11 +40,12 @@ def get_required_files_recursive(yaml_data, fset, base_dir):
 def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('fsets', type=str, help='File set for which to get the required files')
+    parser.add_argument('yaml', type=str, help='YAML file path')
 
     args = parser.parse_args()
 
     # Path to the YAML file
-    yaml_file = '../../adam.yml'
+    yaml_file = args.yaml
 
     # File set for which to get the required files
     fset = args.fsets

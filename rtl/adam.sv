@@ -134,7 +134,7 @@ module adam #(
     assign lsdom_lpcpu_seq.rst = lsdom_seq.rst || lsdom_lpcpu_rst;
 
     if (EN_LPCPU) begin
-        `ADAM_CORE_LPCPU #(
+        adam_core_ibex #(
             `ADAM_CFG_PARAMS_MAP
         ) lsdom_lpcpu (
             .seq   (lsdom_lpcpu_seq),
@@ -325,7 +325,7 @@ module adam #(
         assign hsdom_cpu_seq[i].clk = hsdom_seq.clk;
         assign hsdom_cpu_seq[i].rst = hsdom_seq.rst || hsdom_cpu_rst[i];
 
-        `ADAM_CORE_CPU #(
+        adam_core_cv32e40p #(
             `ADAM_CFG_PARAMS_MAP
         ) hsdom_cpu (
             .seq   (hsdom_cpu_seq[i]),
@@ -386,7 +386,7 @@ module adam #(
         );
 
         if (i == 0 && MEM_SIZE[i] == 0) begin
-            `ADAM_ROM #(
+            hello_world_rom #(
                 `ADAM_CFG_PARAMS_MAP
             ) i_adam_rom (
                 .seq (hsdom_mem_seq[i]),

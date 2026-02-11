@@ -23,10 +23,10 @@ module my_adam_tb;
     import adam_jtag_mst_bhv::*;
 
     `ADAM_BHV_CFG_LOCALPARAMS;
-    localparam integer LPMEM_SIZE = 1024;
+    //localparam integer LPMEM_SIZE = 1024;
 
-    localparam integer MEM_SIZE [NO_MEMS+1] = 
-        '{524288, 524288, 0};
+    //localparam integer MEM_SIZE [NO_MEMS+1] = 
+    //    '{524288, 524288, 0};
 
     // seq and pause ==========================================================
 
