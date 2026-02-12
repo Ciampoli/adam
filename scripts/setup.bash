@@ -14,6 +14,7 @@
 # limitations under the License.
 
 use_venv=true
+dirty=false
 protected="$(basename $0)"
 
 # Exit on any error
@@ -25,6 +26,10 @@ while [[ $# -gt 0 ]]; do
       use_venv=false
       shift
       ;;
+    --dirty)
+      dirty=true
+      shift
+      ;;
   esac
 done
 
@@ -34,39 +39,44 @@ proj=$(pwd)
 
 echo "ADAM ${protected}: Working in folder $proj"
 
-# Clean
-# =============================================================================
-# Delete all cloned submodules (if any)
-git submodule deinit -f .
-
-# Delete gitignored files/folders
-git clean -Xdf
-
-# Setup submodules
-# =============================================================================
-# Clone all submodules recursively
-git submodule update --init --recursive \
-    libs/axi \
-    libs/apb \
-    libs/common_cells \
-    libs/common_verification \
-    libs/cv32e40p \
-    libs/ibex \
-    libs/riscv-dbg \
-    libs/tech_cells_generic \
-    libs/cv32e40x \
-    libs/tflite-micro
-
-# Apply patches to submodules
-for submodule in $(git submodule status | awk '{print $2}'); do
-    patches="patches/$submodule"
-    if [ -d "$patches" ]; then
-        for patch in "$patches"/*; do
-            patch=$(realpath $patch)
-            (cd "$submodule" && git apply "$patch")
-        done
-    fi
-done
+if $dirty; then
+  echo "ADAM ${protected}: Skipping module refresh as --dirty was specified"    
+else
+    
+  # Clean
+  # =============================================================================
+  # Delete all cloned submodules (if any)
+  git submodule deinit -f .
+  
+  # Delete gitignored files/folders
+  git clean -Xdf
+  
+  # Setup submodules
+  # =============================================================================
+  # Clone all submodules recursively
+  git submodule update --init --recursive \
+      libs/axi \
+      libs/apb \
+      libs/common_cells \
+      libs/common_verification \
+      libs/cv32e40p \
+      libs/ibex \
+      libs/riscv-dbg \
+      libs/tech_cells_generic \
+      libs/cv32e40x \
+      libs/tflite-micro
+  
+  # Apply patches to submodules
+  for submodule in $(git submodule status | awk '{print $2}'); do
+      patches="patches/$submodule"
+      if [ -d "$patches" ]; then
+          for patch in "$patches"/*; do
+              patch=$(realpath $patch)
+              (cd "$submodule" && git apply "$patch")
+          done
+      fi
+  done
+fi
 
 # Setup Python
 # =============================================================================
