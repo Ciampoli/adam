@@ -562,6 +562,11 @@ def exec_cmd(cmd, work_path, logger):
     pipe = process.stdout
     for line in iter(pipe.readline, ''):
         logger.info(line.strip())
+
+    # If unix process is not yet terminated, returncode can happen to be None
+    # Grants backward-compatibility with Python 3.6
+    # https://stackoverflow.com/questions/37942022/returncode-of-popen-object-is-none-after-the-process-is-terminated
+    process.wait()
     process.terminate()
 
     ret = process.returncode
