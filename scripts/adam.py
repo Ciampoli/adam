@@ -502,18 +502,31 @@ def synth(*args, **kwargs):
         loggers['synth']
     )
 
-
+# test_flow(*args, **kwargs)
+# 
+# runs the test_flow
+# 
+# if --dirty option is used, do not refresh files
+# otherwise, launch atgen and cmake.
+# clean is True by default. It is not completely
+# clear how one could set this to false.
+# So basically if you do not use --dirty,
+# the existing files will be regenerated.
+#
 def test_flow(*args, **kwargs):
     atgen_path = kwargs['atgen_path']
     vunit_path = kwargs['vunit_path']
     clean = kwargs.get('clean', True)
 
-    if clean and not dirty:
-        safe_rm(atgen_path)
-        safe_rm(vunit_path)
-
-    atgen(*args, **kwargs)
-    cmake(*args, **kwargs)
+    if not dirty:
+        if clean:
+            # preliminarily clean
+            safe_rm(atgen_path)
+            safe_rm(vunit_path)  
+        # regenerate files
+        atgen(*args, **kwargs)
+        cmake(*args, **kwargs)
+    
     vunit(*args, **kwargs)
 
 

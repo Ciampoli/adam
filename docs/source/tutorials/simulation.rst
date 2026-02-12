@@ -26,7 +26,7 @@ you can use the ``test_flow`` from :ref:`adam_py`:
 
 .. code-block:: bash
 
-   (adam) ~ $ adam.py test_flow
+   (adam) ~ $ scripts/adam.py test_flow
 
 This command will run all tests against the default target.
 
@@ -37,7 +37,7 @@ you can use the following command:
 
 .. code-block:: bash
 
-   (adam) ~ $ adam.py -t nexys_video test_flow
+   (adam) ~ $ scripts/adam.py -t nexys_video test_flow
 
 This allows you to focus your testing on a particular target, ensuring that
 tests are run in the context of that specific configuration.
@@ -53,7 +53,7 @@ Here's how you can do it for the ``test`` test case in the
 
 .. code-block:: bash
 
-   (adam) ~ $ adam.py test_flow --top adam_periph_uart_tx_tb.test
+   (adam) ~ $ scripts/adam.py test_flow --top adam_periph_uart_tx_tb.test
 
 Incremental Compilation
 =======================
@@ -66,7 +66,7 @@ Example:
 
 .. code-block:: bash
 
-   (adam) ~ $ adam.py --dirty test_flow --top adam_periph_uart_tx_tb.test
+   (adam) ~ $ scripts/adam.py --dirty test_flow --top adam_periph_uart_tx_tb.test
 
 Visualizing Traces
 ==================
@@ -79,4 +79,4 @@ Example:
 
 .. code-block:: bash
 
-   (adam) ~ $ adam.py --dirty -g test_flow --top adam_periph_uart_tx_tb.test
+   (adam) ~ $ scripts/adam.py --dirty -g test_flow --top adam_periph_uart_tx_tb.test
